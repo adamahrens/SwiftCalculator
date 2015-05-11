@@ -219,6 +219,18 @@
                                     <action selector="enterPressed" destination="BYZ-38-t0r" eventType="touchUpInside" id="YGg-mV-J2s"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="czR-h8-R49">
+                                <rect key="frame" x="247" y="365" width="337" height="77"/>
+                                <color key="backgroundColor" red="0.96078431369999995" green="0.57254901960000004" blue="0.24313725489999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="54"/>
+                                <state key="normal" title="√">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="operationPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="SJW-Yn-ZuU"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -245,6 +257,7 @@
                             <constraint firstItem="X0U-La-s4J" firstAttribute="leading" secondItem="YPz-mL-yCj" secondAttribute="leading" id="NAj-0e-J70"/>
                             <constraint firstItem="RmH-RH-tsV" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="ODq-pZ-1os"/>
                             <constraint firstItem="zhu-6v-LyV" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="PeQ-e1-tJF"/>
+                            <constraint firstItem="czR-h8-R49" firstAttribute="top" secondItem="og6-MT-r6p" secondAttribute="bottom" constant="3" id="Q3s-Bk-5X5"/>
                             <constraint firstItem="8cj-cg-XRy" firstAttribute="top" secondItem="Kzi-mP-CmB" secondAttribute="bottom" constant="3" id="R0X-Ep-XMU"/>
                             <constraint firstItem="RmH-RH-tsV" firstAttribute="leading" secondItem="f8g-BR-GcW" secondAttribute="trailing" constant="3" id="RLR-Jh-ptO"/>
                             <constraint firstItem="zhu-6v-LyV" firstAttribute="top" secondItem="Kzi-mP-CmB" secondAttribute="top" id="Rhf-z0-P60"/>
@@ -263,6 +276,8 @@
                             <constraint firstItem="AvR-BH-ZyD" firstAttribute="top" secondItem="j1f-VD-bib" secondAttribute="top" id="dZ1-qX-YRc"/>
                             <constraint firstItem="FXQ-TK-aTo" firstAttribute="top" secondItem="f8g-BR-GcW" secondAttribute="top" id="dz8-iN-kAu"/>
                             <constraint firstItem="j1f-VD-bib" firstAttribute="leading" secondItem="bhB-Zo-D7q" secondAttribute="leading" id="eYm-rN-WUd"/>
+                            <constraint firstItem="czR-h8-R49" firstAttribute="leading" secondItem="og6-MT-r6p" secondAttribute="leading" id="fFl-tD-Zud"/>
+                            <constraint firstItem="czR-h8-R49" firstAttribute="trailing" secondItem="og6-MT-r6p" secondAttribute="trailing" id="g9J-wy-MHv"/>
                             <constraint firstItem="YPz-mL-yCj" firstAttribute="height" secondItem="X0U-La-s4J" secondAttribute="height" id="g9T-zg-Y0a"/>
                             <constraint firstItem="Xkg-KQ-IdL" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="gOO-Pj-aMg"/>
                             <constraint firstItem="X0U-La-s4J" firstAttribute="leading" secondItem="YPz-mL-yCj" secondAttribute="leading" id="hZ4-2H-Hgp"/>

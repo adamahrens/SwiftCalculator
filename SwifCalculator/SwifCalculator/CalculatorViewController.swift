@@ -46,10 +46,11 @@ class CalculatorViewController: UIViewController {
             }
             
             switch operation {
-                case "+" : performOperation { $0 + $1 }
-                case "-" : performOperation { $1 - $0 }
-                case "×" : performOperation { $0 * $1 }
-                case "÷" : performOperation { $1 / $0 }
+                case "+" : performOperation(Operation.Binary(operation: { $0 + $1 }))
+                case "-" : performOperation(Operation.Binary(operation: { $1 - $0 }))
+                case "×" : performOperation(Operation.Binary(operation: { $0 * $1 }))
+                case "÷" : performOperation(Operation.Binary(operation: { $1 / $0 }))
+                case "√" : performOperation(Operation.Unary(operation: { sqrt($0) }))
                 default : break
             }
         }
@@ -66,10 +67,18 @@ class CalculatorViewController: UIViewController {
         operandStack.removeAll(keepCapacity: false)
     }
     
-    private func performOperation(operation: (Double, Double) -> Double) {
-        if operandStack.count >= 2 {
-            calculatorDisplayValue = operation(operandStack.removeLast(), operandStack.removeLast())
-            enterPressed()
+    private func performOperation(operation: Operation) {
+        switch operation {
+            case .Binary(let operation) :
+                if operandStack.count >= 2 {
+                    calculatorDisplayValue = operation(operandStack.removeLast(), operandStack.removeLast())
+                    enterPressed()
+                }
+            case .Unary(let operation) : operation(1.0)
+            if operandStack.count >= 1 {
+                calculatorDisplayValue = operation(operandStack.removeLast())
+                enterPressed()
+            }
         }
     }
 }
