@@ -9,27 +9,68 @@
 import UIKit
 
 class CalculatorViewController: UIViewController {
-    @IBOutlet weak var calculatorDisplay: UILabel!
+    //MARK: IBOutlets
+    @IBOutlet weak var calculatorDisplay: UILabel! // Automatic unwrapping the optional
     
+    //MARK: Private vars
     private var userIsTypingNumber = false
+    private var operandStack = [Double]()
     
+    //MARK: Computed Property
+    private var calculatorDisplayValue: Double {
+        get {
+            return NSNumberFormatter().numberFromString(calculatorDisplay.text!)!.doubleValue
+        }
+        set {
+            userIsTypingNumber = false
+            calculatorDisplay.text = "\(newValue)"
+        }
+    }
+    
+    //MARK: IBActions
     @IBAction func numberPressed(sender: UIButton) {
         let number = sender.currentTitle!
-        if calculatorDisplay.text == "0" {
-            calculatorDisplay.text = number
-            userIsTypingNumber = true
-        } else {
+        if userIsTypingNumber {
             let updatedDisplay = calculatorDisplay.text! + number
             calculatorDisplay.text = updatedDisplay
+        } else {
+            userIsTypingNumber = true
+            calculatorDisplay.text = number
         }
     }
     
     @IBAction func operationPressed(sender: UIButton) {
+        if let operation = sender.currentTitle {
+            if userIsTypingNumber {
+                enterPressed()
+            }
+            
+            switch operation {
+                case "+" : performOperation { $0 + $1 }
+                case "-" : performOperation { $1 - $0 }
+                case "×" : performOperation { $0 * $1 }
+                case "÷" : performOperation { $1 / $0 }
+                default : break
+            }
+        }
+    }
+    
+    @IBAction func enterPressed() {
+        userIsTypingNumber = false
+        operandStack.append(calculatorDisplayValue)
     }
     
     @IBAction func clearPressed(sender: UIButton) {
-        calculatorDisplay.text = "0"
         userIsTypingNumber = false
+        calculatorDisplay.text = "0"
+        operandStack.removeAll(keepCapacity: false)
+    }
+    
+    private func performOperation(operation: (Double, Double) -> Double) {
+        if operandStack.count >= 2 {
+            calculatorDisplayValue = operation(operandStack.removeLast(), operandStack.removeLast())
+            enterPressed()
+        }
     }
 }
 
