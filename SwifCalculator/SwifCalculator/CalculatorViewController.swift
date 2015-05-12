@@ -14,7 +14,7 @@ class CalculatorViewController: UIViewController {
     
     //MARK: Private vars
     private var userIsTypingNumber = false
-    private var operandStack = [Double]()
+    private let brain = Calculator()
     
     //MARK: Computed Property
     private var calculatorDisplayValue: Double {
@@ -45,41 +45,26 @@ class CalculatorViewController: UIViewController {
                 enterPressed()
             }
             
-            switch operation {
-                case "+" : performOperation(Operation.Binary(operation: { $0 + $1 }))
-                case "-" : performOperation(Operation.Binary(operation: { $1 - $0 }))
-                case "×" : performOperation(Operation.Binary(operation: { $0 * $1 }))
-                case "÷" : performOperation(Operation.Binary(operation: { $1 / $0 }))
-                case "√" : performOperation(Operation.Unary(operation: { sqrt($0) }))
-                default : break
+            if let result = brain.performOperation(operation) {
+                calculatorDisplayValue = result
+            } else {
+                calculatorDisplayValue = 0
             }
         }
     }
     
     @IBAction func enterPressed() {
         userIsTypingNumber = false
-        operandStack.append(calculatorDisplayValue)
+        if let result = brain.pushOperand(calculatorDisplayValue) {
+            calculatorDisplayValue = result
+        } else {
+            calculatorDisplayValue = 0
+        }
     }
     
     @IBAction func clearPressed(sender: UIButton) {
         userIsTypingNumber = false
         calculatorDisplay.text = "0"
-        operandStack.removeAll(keepCapacity: false)
-    }
-    
-    private func performOperation(operation: Operation) {
-        switch operation {
-            case .Binary(let operation) :
-                if operandStack.count >= 2 {
-                    calculatorDisplayValue = operation(operandStack.removeLast(), operandStack.removeLast())
-                    enterPressed()
-                }
-            case .Unary(let operation) : operation(1.0)
-            if operandStack.count >= 1 {
-                calculatorDisplayValue = operation(operandStack.removeLast())
-                enterPressed()
-            }
-        }
     }
 }
 
