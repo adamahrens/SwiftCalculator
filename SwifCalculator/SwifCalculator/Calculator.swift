@@ -82,12 +82,12 @@ class Calculator {
             let op = remainingOps.removeLast()
             var currentHistory = currentHistoryDisplay ?? ""
             switch op {
-            case .Operand(let number) : return remainingOps.isEmpty ? history(remainingOps, currentHistoryDisplay: currentHistory + "\(number)") : history(remainingOps, currentHistoryDisplay: currentHistory + "\(number), ")
+            case .Operand(let number) : return remainingOps.isEmpty ? history(remainingOps, currentHistoryDisplay: currentHistory + "\(number)") : history(remainingOps, currentHistoryDisplay: currentHistory + "\(number) -- ")
                 case .UnaryOperation(_, let operation) :
                     let evaluation = evaluate(remainingOps)
                     if let number = evaluation.result {
                         remainingOps.removeLast()
-                        return remainingOps.isEmpty ? history(remainingOps, currentHistoryDisplay : "\(currentHistory) \(op)(\(number))") : history(remainingOps, currentHistoryDisplay : "\(currentHistory) \(op)(\(number)), ")
+                        return remainingOps.isEmpty ? history(remainingOps, currentHistoryDisplay : "\(currentHistory) \(op)(\(number))") : history(remainingOps, currentHistoryDisplay : "\(currentHistory) \(op)(\(number)) -- ")
                     }
                 case .BinaryOperation(_, let operation) :
                     let firstEvaluation = evaluate(remainingOps)
@@ -97,7 +97,7 @@ class Calculator {
                             // Pop off the two other numbers
                             remainingOps.removeLast()
                             remainingOps.removeLast()
-                            return remainingOps.isEmpty ? history(remainingOps, currentHistoryDisplay: "\(currentHistory) \(number) \(op) \(nextNumber)") : history(remainingOps, currentHistoryDisplay: "\(currentHistory) \(number) \(op) \(nextNumber), ")
+                            return remainingOps.isEmpty ? history(remainingOps, currentHistoryDisplay: "\(currentHistory) \(number) \(op) \(nextNumber)") : history(remainingOps, currentHistoryDisplay: "\(currentHistory) \(number) \(op) \(nextNumber) -- ")
                         }
                     }
             }

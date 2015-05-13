@@ -11,9 +11,11 @@ import UIKit
 class CalculatorViewController: UIViewController {
     //MARK: IBOutlets
     @IBOutlet weak var calculatorDisplay: UILabel! // Automatic unwrapping the optional
+    @IBOutlet weak var historyTextView: UITextView!
     
     //MARK: Private vars
     private var userIsTypingNumber = false
+    private var calculatorIsDisplayingResult = false
     private let brain = Calculator()
     
     //MARK: Computed Property
@@ -23,7 +25,8 @@ class CalculatorViewController: UIViewController {
         }
         set {
             userIsTypingNumber = false
-            calculatorDisplay.text = "\(newValue)"
+            calculatorDisplay.text =  calculatorIsDisplayingResult ? "=\(newValue)" : "\(newValue)"
+            calculatorIsDisplayingResult = false
         }
     }
     
@@ -46,6 +49,7 @@ class CalculatorViewController: UIViewController {
             }
             
             if let result = brain.performOperation(operation) {
+                calculatorIsDisplayingResult = true
                 calculatorDisplayValue = result
             } else {
                 calculatorDisplayValue = 0
@@ -53,7 +57,7 @@ class CalculatorViewController: UIViewController {
             
             // Check for History
             if let history = brain.history() {
-                println(history)
+                historyTextView.text = history.stringByReplacingOccurrencesOfString(" ", withString: "\n")
             }
         }
     }
@@ -68,13 +72,14 @@ class CalculatorViewController: UIViewController {
         
         // Check for History
         if let history = brain.history() {
-            println(history)
+            historyTextView.text = history.stringByReplacingOccurrencesOfString(" ", withString: "\n")
         }
     }
     
     @IBAction func clearPressed(sender: UIButton) {
         userIsTypingNumber = false
         calculatorDisplay.text = "0"
+        historyTextView.text = nil
     }
 }
 
