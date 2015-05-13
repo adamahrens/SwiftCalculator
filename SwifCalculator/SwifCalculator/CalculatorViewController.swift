@@ -50,6 +50,11 @@ class CalculatorViewController: UIViewController {
             } else {
                 calculatorDisplayValue = 0
             }
+            
+            // Check for History
+            if let history = brain.history() {
+                println(history)
+            }
         }
     }
     
@@ -59,6 +64,11 @@ class CalculatorViewController: UIViewController {
             calculatorDisplayValue = result
         } else {
             calculatorDisplayValue = 0
+        }
+        
+        // Check for History
+        if let history = brain.history() {
+            println(history)
         }
     }
     

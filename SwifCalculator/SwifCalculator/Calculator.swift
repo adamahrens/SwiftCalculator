@@ -11,8 +11,8 @@ import Foundation
 class Calculator {
     private enum Op: Printable {
         case Operand(Double)
-        case UnaryOperation(String, Operation)
-        case BinaryOperation(String, Operation)
+        case UnaryOperation(String, (Double) -> Double)
+        case BinaryOperation(String, (Double, Double) -> Double)
         
         var description: String {
             get {
@@ -33,11 +33,13 @@ class Calculator {
     init() {
         // Can just pass the + function name
         //allowedOps["+"] = Op.BinaryOperation("+", Operation.Binary(operation: { $0 + $1 }))
-        allowedOps["+"] = Op.BinaryOperation("+", Operation.Binary(operation: +))
-        allowedOps["-"] = Op.BinaryOperation("-", Operation.Binary(operation: { $1 - $0 }))
-        allowedOps["×"] = Op.BinaryOperation("×", Operation.Binary(operation: *))
-        allowedOps["÷"] = Op.BinaryOperation("+", Operation.Binary(operation: { $1 / $0 }))
-        allowedOps["√"] = Op.UnaryOperation("√", Operation.Unary(operation: sqrt))
+        allowedOps["+"] = Op.BinaryOperation("+", +)
+        allowedOps["-"] = Op.BinaryOperation("-") { $1 - $0 }
+        allowedOps["×"] = Op.BinaryOperation("×", *)
+        allowedOps["÷"] = Op.BinaryOperation("÷") { $1 / $0 }
+        allowedOps["√"] = Op.UnaryOperation("√", sqrt)
+        allowedOps["cos"] = Op.UnaryOperation("cos", cos)
+        allowedOps["sin"] = Op.UnaryOperation("sin", sin)
     }
     
     //MARK: Public Methods
@@ -64,7 +66,46 @@ class Calculator {
         opStack = [Op]()
     }
     
+    func history() -> String? {
+        if !opStack.isEmpty {
+            return history(opStack)
+        }
+        
+        // No elements to display
+        return nil
+    }
+    
     //MARK: Private Methods
+    private func history(ops: [Op], currentHistoryDisplay: String? = nil) -> String? {
+        if !ops.isEmpty {
+            var remainingOps = ops
+            let op = remainingOps.removeLast()
+            var currentHistory = currentHistoryDisplay ?? ""
+            switch op {
+            case .Operand(let number) : return remainingOps.isEmpty ? history(remainingOps, currentHistoryDisplay: currentHistory + "\(number)") : history(remainingOps, currentHistoryDisplay: currentHistory + "\(number), ")
+                case .UnaryOperation(_, let operation) :
+                    let evaluation = evaluate(remainingOps)
+                    if let number = evaluation.result {
+                        remainingOps.removeLast()
+                        return remainingOps.isEmpty ? history(remainingOps, currentHistoryDisplay : "\(currentHistory) \(op)(\(number))") : history(remainingOps, currentHistoryDisplay : "\(currentHistory) \(op)(\(number)), ")
+                    }
+                case .BinaryOperation(_, let operation) :
+                    let firstEvaluation = evaluate(remainingOps)
+                    if let number = firstEvaluation.result {
+                        let secondEvaluation = evaluate(firstEvaluation.remaining)
+                        if let nextNumber = secondEvaluation.result {
+                            // Pop off the two other numbers
+                            remainingOps.removeLast()
+                            remainingOps.removeLast()
+                            return remainingOps.isEmpty ? history(remainingOps, currentHistoryDisplay: "\(currentHistory) \(number) \(op) \(nextNumber)") : history(remainingOps, currentHistoryDisplay: "\(currentHistory) \(number) \(op) \(nextNumber), ")
+                        }
+                    }
+            }
+        }
+        
+        return currentHistoryDisplay
+    }
+    
     private func evaluate(ops: [Op]) -> (result: Double?, remaining: [Op]) {
         // Recursion
         if !ops.isEmpty {
@@ -75,22 +116,14 @@ class Calculator {
                 case .UnaryOperation(_, let operation) :
                     let evaluation = evaluate(remainingOps)
                     if let number = evaluation.result {
-                        switch operation {
-                            case .Unary(let theOp) :
-                                return (theOp(number), evaluation.remaining)
-                            case .Binary : break
-                        }
+                        return (operation(number), evaluation.remaining)
                     }
                 case .BinaryOperation(_, let operation) :
                     let firstEvaluation = evaluate(remainingOps)
                     if let number = firstEvaluation.result {
                         let secondEvaluation = evaluate(firstEvaluation.remaining)
                         if let nextNumber = secondEvaluation.result {
-                            switch operation {
-                                case .Binary(let theOp) :
-                                    return (theOp(number, nextNumber), secondEvaluation.remaining)
-                                case .Unary : break
-                            }
+                            return (operation(number, nextNumber), secondEvaluation.remaining)
                         }
                     }
             }
@@ -99,5 +132,4 @@ class Calculator {
         // Failure
         return (nil, ops)
     }
-    
 }
