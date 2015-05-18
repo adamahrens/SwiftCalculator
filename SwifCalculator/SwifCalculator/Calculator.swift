@@ -82,7 +82,7 @@ class Calculator {
             let op = remainingOps.removeLast()
             var currentHistory = currentHistoryDisplay ?? ""
             switch op {
-            case .Operand(let number) : return remainingOps.isEmpty ? history(remainingOps, currentHistoryDisplay: currentHistory + "\(number)") : history(remainingOps, currentHistoryDisplay: currentHistory + "\(number) -- ")
+                case .Operand(let number) : return remainingOps.isEmpty ? history(remainingOps, currentHistoryDisplay: currentHistory + "\(number)") : history(remainingOps, currentHistoryDisplay: currentHistory + "\(number) -- ")
                 case .UnaryOperation(_, let operation) :
                     let evaluation = evaluate(remainingOps)
                     if let number = evaluation.result {
