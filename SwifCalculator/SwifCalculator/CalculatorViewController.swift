@@ -10,8 +10,8 @@ import UIKit
 
 class CalculatorViewController: UIViewController {
     //MARK: IBOutlets
-    @IBOutlet weak var calculatorDisplay: UILabel! // Automatic unwrapping the optional
-    @IBOutlet weak var historyTextView: UITextView!
+    @IBOutlet weak var calculatorDisplay  : UILabel! // Automatic unwrapping the optional
+    @IBOutlet weak var historyTextView    : UITextView!
     
     //MARK: Private vars
     private var userIsTypingNumber = false

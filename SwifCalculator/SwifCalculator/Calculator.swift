@@ -9,10 +9,13 @@
 import Foundation
 
 class Calculator {
+    typealias SingleOperation = (Double) -> Double
+    typealias DoubleOperation = (Double, Double) -> Double
+    
     private enum Op: Printable {
         case Operand(Double)
-        case UnaryOperation(String, (Double) -> Double)
-        case BinaryOperation(String, (Double, Double) -> Double)
+        case UnaryOperation(String, SingleOperation)
+        case BinaryOperation(String, DoubleOperation)
         
         var description: String {
             get {
