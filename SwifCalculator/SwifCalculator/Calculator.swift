@@ -12,7 +12,7 @@ class Calculator {
     typealias SingleOperation = (Double) -> Double
     typealias DoubleOperation = (Double, Double) -> Double
     
-    private enum Op: Printable {
+    private enum Op: CustomStringConvertible {
         case Operand(Double)
         case UnaryOperation(String, SingleOperation)
         case BinaryOperation(String, DoubleOperation)
@@ -21,8 +21,8 @@ class Calculator {
             get {
                 switch self {
                     case .Operand(let number) : return "\(number)"
-                    case .UnaryOperation(let mathSymbol, let op): return mathSymbol
-                    case .BinaryOperation(let mathSymbol, let op): return mathSymbol
+                    case .UnaryOperation(let mathSymbol, let _): return mathSymbol
+                    case .BinaryOperation(let mathSymbol, let _): return mathSymbol
                 }
             }
         }
@@ -83,16 +83,16 @@ class Calculator {
         if !ops.isEmpty {
             var remainingOps = ops
             let op = remainingOps.removeLast()
-            var currentHistory = currentHistoryDisplay ?? ""
+            let currentHistory = currentHistoryDisplay ?? ""
             switch op {
                 case .Operand(let number) : return remainingOps.isEmpty ? history(remainingOps, currentHistoryDisplay: currentHistory + "\(number)") : history(remainingOps, currentHistoryDisplay: currentHistory + "\(number) -- ")
-                case .UnaryOperation(_, let operation) :
+                case .UnaryOperation:
                     let evaluation = evaluate(remainingOps)
                     if let number = evaluation.result {
                         remainingOps.removeLast()
                         return remainingOps.isEmpty ? history(remainingOps, currentHistoryDisplay : "\(currentHistory) \(op)(\(number))") : history(remainingOps, currentHistoryDisplay : "\(currentHistory) \(op)(\(number)) -- ")
                     }
-                case .BinaryOperation(_, let operation) :
+                case .BinaryOperation :
                     let firstEvaluation = evaluate(remainingOps)
                     if let number = firstEvaluation.result {
                         let secondEvaluation = evaluate(firstEvaluation.remaining)
