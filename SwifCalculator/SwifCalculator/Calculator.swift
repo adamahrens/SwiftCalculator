@@ -12,7 +12,7 @@ class Calculator {
     typealias SingleOperation = (Double) -> Double
     typealias DoubleOperation = (Double, Double) -> Double
     
-    private enum Op: CustomStringConvertible {
+    private enum Op: Printable {
         case Operand(Double)
         case UnaryOperation(String, SingleOperation)
         case BinaryOperation(String, DoubleOperation)
