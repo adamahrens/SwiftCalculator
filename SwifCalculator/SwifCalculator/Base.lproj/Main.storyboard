@@ -407,6 +407,9 @@
                                 <exclude reference="qFv-zo-niz"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="BvU-2A-94w"/>
+                                <exclude reference="HR5-Kc-Stb"/>
+                                <exclude reference="x4A-rD-DY7"/>
                                 <exclude reference="jCP-Nt-hpy"/>
                                 <exclude reference="ODq-pZ-1os"/>
                                 <exclude reference="0FZ-tG-A1C"/>
@@ -417,9 +420,6 @@
                                 <exclude reference="R31-b0-Tly"/>
                                 <exclude reference="b0I-eq-DPE"/>
                                 <exclude reference="hMB-ga-cgY"/>
-                                <exclude reference="BvU-2A-94w"/>
-                                <exclude reference="HR5-Kc-Stb"/>
-                                <exclude reference="x4A-rD-DY7"/>
                                 <exclude reference="LIv-al-rul"/>
                                 <exclude reference="VTc-TE-Cud"/>
                                 <exclude reference="jur-bo-c5F"/>
@@ -432,10 +432,10 @@
                                 <include reference="qFv-zo-niz"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="ODq-pZ-1os"/>
                                 <exclude reference="BvU-2A-94w"/>
                                 <include reference="HR5-Kc-Stb"/>
                                 <include reference="x4A-rD-DY7"/>
+                                <exclude reference="ODq-pZ-1os"/>
                                 <include reference="0wY-Cx-1dC"/>
                             </mask>
                         </variation>
@@ -478,7 +478,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="428" y="249"/>
+            <point key="canvasLocation" x="230" y="229"/>
         </scene>
     </scenes>
 </document>
