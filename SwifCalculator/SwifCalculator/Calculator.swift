@@ -12,7 +12,7 @@ class Calculator {
     typealias SingleOperation = (Double) -> Double
     typealias DoubleOperation = (Double, Double) -> Double
     
-    private enum Op: Printable {
+    private enum Op: CustomStringConvertible {
         case Operand(Double)
         case UnaryOperation(String, SingleOperation)
         case BinaryOperation(String, DoubleOperation)
@@ -21,8 +21,8 @@ class Calculator {
             get {
                 switch self {
                     case .Operand(let number) : return "\(number)"
-                    case .UnaryOperation(let mathSymbol, let _): return mathSymbol
-                    case .BinaryOperation(let mathSymbol, let _): return mathSymbol
+                    case .UnaryOperation(let mathSymbol, _): return mathSymbol
+                    case .BinaryOperation(let mathSymbol, _): return mathSymbol
                 }
             }
         }
